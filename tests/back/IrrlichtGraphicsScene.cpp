@@ -93,9 +93,7 @@ void IrrlichtGraphicsScene::drawBackground(QPainter *painter, const QRectF &){
     // to the upper left corner
     glTranslatef(0, -height(), 0);
 
-
     //    glMatrixMode(GL_MODELVIEW);
-    glFinish();
 
 
     QTimer::singleShot(20, this, SLOT(update()));
