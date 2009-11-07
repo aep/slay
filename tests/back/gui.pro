@@ -3,6 +3,7 @@ TARGET =
 DEPENDPATH += .
 INCLUDEPATH += .
 
+
 CONFIG+=debug
 
 OBJECTS_DIR=.obj

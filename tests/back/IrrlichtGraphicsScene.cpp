@@ -50,13 +50,11 @@ void IrrlichtGraphicsScene::drawBackground(QPainter *painter, const QRectF &){
         driver= device->getVideoDriver();
         scene= device->getSceneManager();
         initializeIrrlichtScene();
+        if (painter->paintEngine()->type() != QPaintEngine::OpenGL) {
+            qFatal("IrrlichtGraphicsScene: you need to set the QGraphicsView viewport to a QGlWidget");
+            return;
+        }
     }
-    if (painter->paintEngine()->type() != QPaintEngine::OpenGL) {
-        qFatal("IrrlichtGraphicsScene: you need to set the QGraphicsView viewport to a QGlWidget");
-        return;
-    }
-
-
 
 
     int cfps=1000/m_time.restart();
@@ -69,7 +67,7 @@ void IrrlichtGraphicsScene::drawBackground(QPainter *painter, const QRectF &){
 
 
     glEnable (GL_DEPTH_TEST);
-    driver->beginScene(false,false);
+    //    driver->beginScene(false,false);
     updateIrrlichtScene();
     scene->drawAll();
 
@@ -88,14 +86,16 @@ void IrrlichtGraphicsScene::drawBackground(QPainter *painter, const QRectF &){
     glLoadIdentity();
     // set a 2D orthographic projection
     gluOrtho2D(0, width(), 0, height());
+
     // invert the y axis, down is positive
     glScalef(1, -1, 1);
     // mover the origin from the bottom left corner
     // to the upper left corner
     glTranslatef(0, -height(), 0);
 
-    //    glMatrixMode(GL_MODELVIEW);
 
+    //    glMatrixMode(GL_MODELVIEW);
+    glFinish();
 
 
     QTimer::singleShot(20, this, SLOT(update()));

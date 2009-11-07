@@ -36,13 +36,12 @@ int main(int argc, char **argv){
     fpslabel=new QLabel();
     fpslabel->show();
 
-
     QGraphicsScene scene;
     Scene view;
     view.setScene(&scene);
 
 	scene.addWidget(new DirDialog());
-    //	scene.addWidget(fpslabel)->resize(100,20);;
+    //scene.addWidget(fpslabel)->resize(100,20);;
 
     foreach (QGraphicsItem *item, scene.items()) {
         item->setFlag(QGraphicsItem::ItemIsMovable);

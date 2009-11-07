@@ -51,6 +51,9 @@ void IrrlichtGraphicsView::resizeGL ( int w, int h ){
         size.Height = h;
         device->getVideoDriver()->OnResize(size);
     }
+    if(qgs){
+        qgs->setSceneRect(0,0,w-20,h-20);
+    }
 
 }
 
@@ -86,47 +89,19 @@ void IrrlichtGraphicsView::paintGL() {
 
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    driver->beginScene( false, false, SColor( 255, 128, 128, 128 ));
+    //driver->beginScene( false, false, SColor( 255, 128, 128, 128 ));
 
     updateIrrlichtScene();
-    scene->drawAll();
+    //    scene->drawAll();
 
     if(qgs){
-        ((QWidget*)qgv)->render(context()->device(),QPoint(),QRegion(),DrawChildren);
-            //QPainter painter(context()->device());
-        //        qgs->render (&painter );
+        glDisable (GL_LIGHTING);
+        //((QWidget*)qgv)->render(context()->device(),QPoint(),QRegion(),DrawChildren);
+                QPainter painter(context()->device());
+                qgs->render (&painter );
     }
 
-    driver->endScene();
-
-
-
-    QTimer::singleShot(20, this, SLOT(updateGL()));
-    return;
-
-    glDisable (GL_LIGHTING);
-
-    //    glPushMatrix();
-
-    //glPopMatrix();
-
-    // switch to projection mode
-    glMatrixMode(GL_PROJECTION);
-    // save previous matrix which contains the
-    //settings for the perspective projection
-        //    glPushMatrix();
-    // reset matrix
-    glLoadIdentity();
-    // set a 2D orthographic projection
-    gluOrtho2D(0, width(), 0, height());
-    // invert the y axis, down is positive
-    glScalef(1, -1, 1);
-    // mover the origin from the bottom left corner
-    // to the upper left corner
-    glTranslatef(0, -height(), 0);
-
-    //    glMatrixMode(GL_MODELVIEW);
-
-
+    //driver->endScene();
+    glFinish();
     QTimer::singleShot(20, this, SLOT(updateGL()));
 }
