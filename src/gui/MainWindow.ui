@@ -41,7 +41,7 @@
          <number>0</number>
         </property>
         <item row="0" column="0">
-         <widget class="SceneWidget" name="scene" native="true"/>
+         <widget class="IrrlichtGraphicsView" name="view" native="true"/>
         </item>
        </layout>
       </widget>
@@ -180,72 +180,6 @@
    <addaction name="menuMain"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QDockWidget" name="inventoryDock">
-   <property name="windowTitle">
-    <string>Inventory</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>1</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents">
-    <layout class="QGridLayout" name="gridLayout_2">
-     <property name="margin">
-      <number>0</number>
-     </property>
-     <item row="0" column="0">
-      <widget class="QTreeView" name="inventoryView">
-       <property name="frameShape">
-        <enum>QFrame::NoFrame</enum>
-       </property>
-       <property name="horizontalScrollBarPolicy">
-        <enum>Qt::ScrollBarAlwaysOff</enum>
-       </property>
-       <attribute name="headerVisible">
-        <bool>false</bool>
-       </attribute>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QDockWidget" name="chatDock">
-   <property name="windowTitle">
-    <string>Chat</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>8</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents_2">
-    <layout class="QGridLayout" name="gridLayout_4">
-     <property name="margin">
-      <number>0</number>
-     </property>
-     <property name="spacing">
-      <number>0</number>
-     </property>
-     <item row="0" column="0" colspan="2">
-      <widget class="QTextEdit" name="chatlog">
-       <property name="baseSize">
-        <size>
-         <width>0</width>
-         <height>13</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLineEdit" name="chatline"/>
-     </item>
-     <item row="1" column="1">
-      <widget class="QPushButton" name="chatsend">
-       <property name="text">
-        <string>Send</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
   <action name="actionClose">
    <property name="text">
     <string>Quit</string>
@@ -269,9 +203,9 @@
    <header>QtWebKit/QWebView</header>
   </customwidget>
   <customwidget>
-   <class>SceneWidget</class>
+   <class>IrrlichtGraphicsView</class>
    <extends>QWidget</extends>
-   <header>SceneWidget.hpp</header>
+   <header>IrrlichtGraphicsScene.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -286,22 +220,6 @@
   <include location="../../resources/resources.qrc"/>
  </resources>
  <connections>
-  <connection>
-   <sender>chatline</sender>
-   <signal>returnPressed()</signal>
-   <receiver>chatsend</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>127</x>
-     <y>527</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>761</x>
-     <y>530</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>login_first</sender>
    <signal>returnPressed()</signal>

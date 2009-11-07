@@ -24,17 +24,20 @@ CONFIG+=debug
 QMAKE_CXXFLAGS_WARN_ON  = 
 
 
-RESOURCES += ../resources/resources.qrc
-FORMS   +=  gui/MainWindow.ui
-HEADERS +=  gui/MainWindow.hpp \
-            gui/QIrrlichtWidget.hpp \
-            gui/SceneWidget.hpp \
-            gui/InventoryModel.hpp \
-            scene/MainScene.hpp 
 
-SOURCES +=  gui/Main.cpp \
-            gui/MainWindow.cpp \
-            gui/QIrrlichtWidget.cpp \
-            gui/SceneWidget.cpp \
-            gui/InventoryModel.cpp  \
-            scene/MainScene.cpp 
+
+
+HEADERS += gui/InventoryDialog.hpp \
+	   gui/ChatDialog.hpp \
+           gui/IrrlichtGraphicsScene.hpp \
+           gui/MainWindow.hpp \
+           scene/scene.hpp
+
+FORMS += gui/MainWindow.ui
+
+SOURCES += gui/InventoryDialog.cpp \
+	   gui/ChatDialog.cpp \
+           gui/IrrlichtGraphicsScene.cpp \
+           gui/Main.cpp \
+           gui/MainWindow.cpp \
+           scene/scene.cpp
