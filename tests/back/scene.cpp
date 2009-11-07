@@ -26,7 +26,7 @@ Scene::Scene(IrrlichtGraphicsView * v)
 }
 
 void Scene::initializeIrrlichtScene(){
-	device->getFileSystem()->addZipFileArchive("../resources/sl/test/map-20kdm2.pk3");
+	device->getFileSystem()->addZipFileArchive("../../resources/sl/test/map-20kdm2.pk3");
 	scene::IAnimatedMesh* mesh = scene->getMesh("20kdm2.bsp");
 	scene::ISceneNode* node = 0;
 	if (mesh)
@@ -34,7 +34,7 @@ void Scene::initializeIrrlichtScene(){
 	if (node)
 		node->setPosition(core::vector3df(-1300,-144,-1249));
 
-	avatar= scene->addAnimatedMeshSceneNode(scene->getMesh( "../resources/sl/avatar/ninja.b3d" ));
+	avatar= scene->addAnimatedMeshSceneNode(scene->getMesh( "../../resources/sl/avatar/ninja.b3d" ));
 	if(avatar){
 		avatar->setFrameLoop(0, 14);
 		avatar->setAnimationSpeed(15);

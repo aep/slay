@@ -8,9 +8,9 @@ CONFIG+=debug
 OBJECTS_DIR=.obj
 MOC_DIR=.obj
 
-INCLUDEPATH += . ../dependencies/irrlicht/include/ 
+INCLUDEPATH += . ../../dependencies/irrlicht/include/ 
 
-LIBS += ../dependencies/irrlicht/lib/Linux/libIrrlicht.a  -lGL
+LIBS += ../../dependencies/irrlicht/lib/Linux/libIrrlicht.a  -lGL
 
 QT= core gui opengl
 
