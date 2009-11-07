@@ -40,7 +40,7 @@ protected:
 
     virtual void initializeIrrlichtScene()=0;
     virtual void updateIrrlichtScene()=0;
-    void setDirty(){}
+    void setDirty(){update();}
 
     IrrlichtGraphicsView * view;
 

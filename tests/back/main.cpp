@@ -39,7 +39,7 @@ int main(int argc, char **argv){
     Scene scene(&view);
     view.setScene(&scene);
 
-	scene.addWidget(new DirDialog());
+    scene.addWidget(new DirDialog());
 	scene.addWidget(fpslabel)->resize(100,20);;
 
     foreach (QGraphicsItem *item, scene.items()) {

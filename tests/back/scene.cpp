@@ -124,18 +124,20 @@ void Scene::focusOutEvent ( QFocusEvent *  ){
 }
 
 void Scene::keyPressEvent ( QKeyEvent * event ){
-    IrrlichtGraphicsScene::keyPressEvent(event);
-    if (event->isAccepted())
+    if (focusItem()){
+        IrrlichtGraphicsScene::keyPressEvent(event);
         return;
+    }
 	pressedKeys[event->key()]=true;
 	event->accept();
 }
 
 
 void Scene::keyReleaseEvent ( QKeyEvent * event ){
-    IrrlichtGraphicsScene::keyReleaseEvent(event);
-    if (event->isAccepted())
+    if (focusItem()){
+        IrrlichtGraphicsScene::keyReleaseEvent(event);
         return;
+    }
 	pressedKeys[event->key()]=false;
 	event->accept();
 }
