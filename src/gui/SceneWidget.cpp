@@ -1,10 +1,9 @@
-#include "scene.hpp"
+#include "MainWindow.hpp"
 #include <QDebug>
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <QKeyEvent>
 #include <QDateTime>
-#include <QtOpenGL>
 
 using namespace irr;
 using namespace irr;
@@ -12,20 +11,24 @@ using namespace irr::video;
 using namespace irr::core;
 using namespace irr::scene;
 
-Scene::Scene()
- :IrrlichtGraphicsView()
- ,mouseLook(false)
- ,rotH(0)
- ,rotV(0)
- ,movementSpeed(0.3)
- ,rotationSpeed(0.2)
- ,cameraToAvatarOffset(0,70,-50)
- ,cameraTargetToAvatarOffset(0,70,0)
- ,cameraAngleH(0)
- ,cameraAngleV(0){
+SceneWidget::SceneWidget(QWidget * parent)
+		:QIrrlichtWidget(parent)
+		,mouseLook(false)
+        ,rotH(0)
+        ,rotV(0)
+		,movementSpeed(0.3)
+		,rotationSpeed(0.2)
+		,cameraToAvatarOffset(0,70,-50)
+		,cameraTargetToAvatarOffset(0,70,0)
+		,cameraAngleH(0)
+		,cameraAngleV(0)
+
+{
+	setFocusPolicy(Qt::WheelFocus);
 }
 
-void Scene::initializeIrrlichtScene(){
+
+void SceneWidget::initializeScene(){
 	device->getFileSystem()->addZipFileArchive("../resources/sl/test/map-20kdm2.pk3");
 	scene::IAnimatedMesh* mesh = scene->getMesh("20kdm2.bsp");
 	scene::ISceneNode* node = 0;
@@ -46,20 +49,25 @@ void Scene::initializeIrrlichtScene(){
 
 		avatar->setAnimationSpeed(10.f);
 		avatar->getMaterial(0).NormalizeNormals = true;
-		avatar->getMaterial(0).Lighting = false;
 	}
+
+
+
+	scene::ILightSceneNode * light = scene->addLightSceneNode(0, core::vector3df(-60,100,400), video::SColorf(1.0f,1.0f,1.0f,1.0f), 600.0f);
+
 
 
 	camera=scene->addCameraSceneNode();
 	camera->bindTargetAndRotation(true);
-	move=1; updateIrrlichtScene();
+	move=1; updateScene();
 
 	frameTime.start();
 }
 
 
 
-void Scene::updateIrrlichtScene(){
+void SceneWidget::updateScene(){
+
 
 	int frameDeltaTime=frameTime.elapsed();
 	frameTime.restart();
@@ -80,68 +88,59 @@ void Scene::updateIrrlichtScene(){
 	updateAvatarPosition();
 	updateCamera();
 
+
 	move=0;
 	slide=0;
 	rotH=0;
 	rotV=0;
 }
 
-void Scene::mouseMoveEvent ( QMouseEvent * e ){
-    IrrlichtGraphicsView::mouseMoveEvent(e);
-    if (e->isAccepted())
-        return;
-
-    if(mouseLook){
-        QPointF d=mousePos-(QPointF(e->pos()));
-        QCursor::setPos(mousePos);
-        rotH-=d.x()*rotationSpeed;
-        rotV-=d.y()*rotationSpeed;
-    }
+void SceneWidget::mouseMoveEvent ( QMouseEvent * e ){
+	QPointF d=mousePos-(QPointF(e->globalPos()));
+	QCursor::setPos(mousePos);
+	rotH-=d.x()*rotationSpeed;
+	rotV-=d.y()*rotationSpeed;
 }
 
-void Scene::wheelEvent ( QWheelEvent * event){
+void SceneWidget::wheelEvent ( QWheelEvent * event){
 	core::vector3df nodePosition = camera->getPosition();
 	nodePosition.X += (event->delta() / 8 / 15);
 	camera->setPosition(nodePosition);
 }
 
-void Scene::focusInEvent ( QFocusEvent *  ){
+void SceneWidget::focusInEvent ( QFocusEvent *  ){
 	if(mouseLook){
 		mousePos=QCursor::pos();
-		view->setCursor( QCursor( Qt::BlankCursor ) );
-		view->grabMouse();
-        //		activeWindow ()->setMouseTracking(true);
+		setCursor( QCursor( Qt::BlankCursor ) );
+		grabMouse();
+		setMouseTracking(true);
 	}
 }
 
-void Scene::focusOutEvent ( QFocusEvent *  ){
+void SceneWidget::focusOutEvent ( QFocusEvent *  ){
 	if(mouseLook){
 		QCursor::setPos(mousePos);
-		view->setCursor( QCursor( Qt::ArrowCursor ) );
-		view->releaseMouse();
-        //		setMouseTracking(false);
+		setCursor( QCursor( Qt::ArrowCursor ) );
+		releaseMouse();
+		setMouseTracking(false);
 	}
 }
 
-void Scene::keyPressEvent ( QKeyEvent * event ){
-    IrrlichtGraphicsView::keyPressEvent(event);
-    if (event->isAccepted())
-        return;
+
+
+void SceneWidget::keyPressEvent ( QKeyEvent * event ){
 	pressedKeys[event->key()]=true;
 	event->accept();
 }
 
 
-void Scene::keyReleaseEvent ( QKeyEvent * event ){
-    IrrlichtGraphicsView::keyReleaseEvent(event);
-    if (event->isAccepted())
-        return;
+void SceneWidget::keyReleaseEvent ( QKeyEvent * event ){
 	pressedKeys[event->key()]=false;
 	event->accept();
 }
 
 
-void Scene::updateAvatarPosition(){
+void SceneWidget::updateAvatarPosition(){
 	if(slide || move){
 
 		//removeme move animation demo.
@@ -153,7 +152,7 @@ void Scene::updateAvatarPosition(){
 
 		irr::core::matrix4 mat = camera->getRelativeTransformation();
 		irr::core::vector3df slideVec(slide,0,0);
-		irr::core::vector3df moveVec(0,0,move);
+		irr::core::vector3df moveVec(0,0,move); 
 		mat.rotateVect(slideVec);
 		mat.rotateVect(moveVec);
 		avatar->setPosition( avatar->getPosition() + slideVec + moveVec );
@@ -162,7 +161,7 @@ void Scene::updateAvatarPosition(){
 }
 
 
-void Scene::updateCamera()
+void SceneWidget::updateCamera()
 {
 	if(slide || move || rotH || rotV){
 		cameraAngleH+=rotH;
